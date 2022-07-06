@@ -22,7 +22,7 @@ class DepartmentsController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -70,7 +70,9 @@ class DepartmentsController extends Controller
         $model = new Departments();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                $model->created_at = date("Y-m-d H:i:s");
+                $model->save();
                 return $this->redirect(['view', 'department_id' => $model->department_id]);
             }
         } else {

@@ -14,8 +14,8 @@ use Yii;
  * @property string|null $address
  * @property string|null $created_at
  *
- * @property Company $company
- * @property Department[] $departments
+ * @property Companies $companies
+ * @property Departments[] $departments
  */
 class Branches extends \yii\db\ActiveRecord
 {
@@ -38,7 +38,7 @@ class Branches extends \yii\db\ActiveRecord
             [['status', 'address'], 'string'],
             [['created_at'], 'safe'],
             [['name'], 'string', 'max' => 255],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::class, 'targetAttribute' => ['company_id' => 'company_id']],
+            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::class, 'targetAttribute' => ['company_id' => 'company_id']],
         ];
     }
 
@@ -48,11 +48,12 @@ class Branches extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'company.name' => 'Company Name',
             'branch_id' => 'Branch ID',
             'company_id' => 'Company ID',
-            'name' => 'Name',
-            'status' => 'Status',
-            'address' => 'Address',
+            'name' => 'Branch Name',
+            'status' => 'Branch Status',
+            'address' => 'Branch Address',
             'created_at' => 'Created At',
         ];
     }
@@ -64,7 +65,7 @@ class Branches extends \yii\db\ActiveRecord
      */
     public function getCompany()
     {
-        return $this->hasOne(Company::class, ['company_id' => 'company_id']);
+        return $this->hasOne(Companies::class, ['company_id' => 'company_id']);
     }
 
     /**
@@ -74,6 +75,6 @@ class Branches extends \yii\db\ActiveRecord
      */
     public function getDepartments()
     {
-        return $this->hasMany(Department::class, ['branch_id' => 'branch_id']);
+        return $this->hasMany(Departments::class, ['branch_id' => 'branch_id']);
     }
 }

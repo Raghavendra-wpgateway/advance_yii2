@@ -14,8 +14,8 @@ use Yii;
  * @property string|null $status
  * @property string|null $created_at
  *
- * @property Branch $branch
- * @property Company $comapany
+ * @property Branches $branches
+ * @property Companies $comapanies
  */
 class Departments extends \yii\db\ActiveRecord
 {
@@ -38,8 +38,8 @@ class Departments extends \yii\db\ActiveRecord
             [['status'], 'string'],
             [['created_at'], 'safe'],
             [['name'], 'string', 'max' => 255],
-            [['comapany_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::class, 'targetAttribute' => ['comapany_id' => 'company_id']],
-            [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branch::class, 'targetAttribute' => ['branch_id' => 'branch_id']],
+            [['comapany_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::class, 'targetAttribute' => ['comapany_id' => 'company_id']],
+            [['branch_id'], 'exist', 'skipOnError' => true, 'targetClass' => Branches::class, 'targetAttribute' => ['branch_id' => 'branch_id']],
         ];
     }
 
@@ -49,9 +49,8 @@ class Departments extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'department_id' => 'Department ID',
-            'branch_id' => 'Branch ID',
-            'comapany_id' => 'Comapany ID',
+            'branch.name' => 'Branch Name',
+            'comapany.name' => 'Comapany Name',
             'name' => 'Name',
             'status' => 'Status',
             'created_at' => 'Created At',
@@ -65,7 +64,7 @@ class Departments extends \yii\db\ActiveRecord
      */
     public function getBranch()
     {
-        return $this->hasOne(Branch::class, ['branch_id' => 'branch_id']);
+        return $this->hasOne(Branches::class, ['branch_id' => 'branch_id']);
     }
 
     /**
@@ -75,6 +74,6 @@ class Departments extends \yii\db\ActiveRecord
      */
     public function getComapany()
     {
-        return $this->hasOne(Company::class, ['company_id' => 'comapany_id']);
+        return $this->hasOne(Companies::class, ['company_id' => 'comapany_id']);
     }
 }

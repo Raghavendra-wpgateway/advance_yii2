@@ -15,8 +15,8 @@ use Yii;
  * @property string|null $created_at
  * @property string|null $updated_at
  *
- * @property Branch[] $branches
- * @property Department[] $departments
+ * @property Branches[] $branches
+ * @property Departments[] $departments
  */
 class Companies extends \yii\db\ActiveRecord
 {

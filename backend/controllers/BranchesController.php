@@ -3,7 +3,9 @@
 namespace backend\controllers;
 
 use backend\models\Branches;
+use backend\models\Companies;
 use backend\models\SearchBranches;
+use ErrorException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,7 +24,7 @@ class BranchesController extends Controller
             parent::behaviors(),
             [
                 'verbs' => [
-                    'class' => VerbFilter::className(),
+                    'class' => VerbFilter::class,
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -69,9 +71,19 @@ class BranchesController extends Controller
     {
         $model = new Branches();
 
+        
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+
+                try{
+                $model->created_at = date('Y-m-d H:i:s');
+                $model->save();
                 return $this->redirect(['view', 'branch_id' => $model->branch_id]);
+                }
+                catch(ErrorException $ex)
+                {
+                   echo "Error message: ".$ex->getMessage();
+                }
             }
         } else {
             $model->loadDefaultValues();
